@@ -66,6 +66,22 @@ public class AccountService {
         return admin;
     }
 
+    public JwtResponse b2bLogin(Login login) {
+        AppUser user = accountRepository.findByEmail(login.getEmail());
+
+        if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("B2BAdministrator"))) {
+            JwtResponse response = authenticateDetail(login);
+            return response;
+        }
+        return null;
+    }
+
+    public AppUser registerB2B(Register register) {
+        String role = "B2BAdministrator";
+        AppUser b2bUser = setUserDetails(register, role);
+        return b2bUser;
+    }
+
     public List<AppUser> getAllUsers() {
         return (List<AppUser>) accountRepository.findAll();
     }

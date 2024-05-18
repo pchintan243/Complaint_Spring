@@ -54,6 +54,21 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.CREATED).body(registerAdmin);
     }
 
+    @PostMapping("/auth/b2bLogin")
+    public ResponseEntity<JwtResponse> b2bLogin(@RequestBody Login login) {
+        JwtResponse b2bLogin = accountService.b2bLogin(login);
+        if (b2bLogin == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(b2bLogin);
+    }
+
+    @PostMapping("/auth/b2bRegister")
+    public ResponseEntity<AppUser> registerB2B(@RequestBody Register register) {
+        AppUser registerB2B = accountService.registerB2B(register);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registerB2B);
+    }
+
     @GetMapping("/api/getAllUsers")
     public ResponseEntity<List<AppUser>> getAllUsers() {
 
