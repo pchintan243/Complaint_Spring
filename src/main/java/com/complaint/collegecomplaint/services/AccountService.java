@@ -44,19 +44,8 @@ public class AccountService {
     }
 
     public AppUser registerUser(Register register) {
-        AppUser appUser = new AppUser();
-        appUser.setName(register.getName());
-        appUser.setEmail(register.getEmail());
-        appUser.setPassword(passwordEncoder.encode(register.getPassword()));
-        appUser.setPhone(register.getPhone());
-
-        Claims role = new Claims();
-        role.setEmail(register.getEmail());
-        role.setClaims("User");
-        role.setUser(appUser);
-
-        appUser.setClaims(role);
-        AppUser userData = accountRepository.save(appUser);
+        String role = "User";
+        AppUser userData = setUserDetails(register, role);
         return userData;
     }
 
@@ -72,25 +61,30 @@ public class AccountService {
     }
 
     public AppUser registerAdmin(Register register) {
+        String role = "Administrator";
+        AppUser admin = setUserDetails(register, role);
+        return admin;
+    }
+
+    public List<AppUser> getAllUsers() {
+        return (List<AppUser>) accountRepository.findAll();
+    }
+
+    private AppUser setUserDetails(Register register, String role) {
         AppUser appUser = new AppUser();
         appUser.setName(register.getName());
         appUser.setEmail(register.getEmail());
         appUser.setPassword(passwordEncoder.encode(register.getPassword()));
         appUser.setPhone(register.getPhone());
 
-        Claims claim = new Claims();
-        claim.setEmail(register.getEmail());
-        claim.setClaims("Administrator");
-        claim.setUser(appUser);
+        Claims claims = new Claims();
+        claims.setEmail(register.getEmail());
+        claims.setClaims(role);
+        claims.setUser(appUser);
 
-        appUser.setClaims(claim);
-
-        AppUser admin = accountRepository.save(appUser);
-        return admin;
-    }
-
-    public List<AppUser> getAllUsers() {
-        return (List<AppUser>) accountRepository.findAll();
+        appUser.setClaims(claims);
+        AppUser userData = accountRepository.save(appUser);
+        return userData;
     }
 
     private JwtResponse authenticateDetail(Login login) {
