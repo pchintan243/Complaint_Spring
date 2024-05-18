@@ -38,8 +38,7 @@ public class AccountService {
     @Autowired
     private UserDetailsService userDetailsService;
 
-    public JwtResponse loginUser(Login login) {
-
+    public JwtResponse userLogin(Login login) {
         JwtResponse response = authenticateDetail(login);
         return response;
     }
@@ -53,12 +52,41 @@ public class AccountService {
 
         Claims role = new Claims();
         role.setEmail(register.getEmail());
-        role.setClaims("USER");
+        role.setClaims("User");
         role.setUser(appUser);
 
         appUser.setClaims(role);
         AppUser userData = accountRepository.save(appUser);
         return userData;
+    }
+
+    public JwtResponse adminLogin(Login login) {
+
+        AppUser user = accountRepository.findByEmail(login.getEmail());
+
+        if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("Administrator"))) {
+            JwtResponse response = authenticateDetail(login);
+            return response;
+        }
+        return null;
+    }
+
+    public AppUser registerAdmin(Register register) {
+        AppUser appUser = new AppUser();
+        appUser.setName(register.getName());
+        appUser.setEmail(register.getEmail());
+        appUser.setPassword(passwordEncoder.encode(register.getPassword()));
+        appUser.setPhone(register.getPhone());
+
+        Claims claim = new Claims();
+        claim.setEmail(register.getEmail());
+        claim.setClaims("Administrator");
+        claim.setUser(appUser);
+
+        appUser.setClaims(claim);
+
+        AppUser admin = accountRepository.save(appUser);
+        return admin;
     }
 
     public List<AppUser> getAllUsers() {

@@ -28,7 +28,7 @@ public class AccountController {
     @PostMapping("/auth/userLogin")
     public ResponseEntity<JwtResponse> loginUser(@RequestBody Login login) {
 
-        JwtResponse response = accountService.loginUser(login);
+        JwtResponse response = accountService.userLogin(login);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -39,7 +39,22 @@ public class AccountController {
         return new ResponseEntity<>(registerUser, HttpStatus.CREATED);
     }
 
-    @GetMapping("/getAllUsers")
+    @PostMapping("/auth/adminLogin")
+    public ResponseEntity<JwtResponse> adminLogin(@RequestBody Login login) {
+        JwtResponse adminLogin = accountService.adminLogin(login);
+        if (adminLogin == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(adminLogin);
+    }
+
+    @PostMapping("/auth/adminRegister")
+    public ResponseEntity<AppUser> registerAdmin(@RequestBody Register register) {
+        AppUser registerAdmin = accountService.registerAdmin(register);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registerAdmin);
+    }
+
+    @GetMapping("/api/getAllUsers")
     public ResponseEntity<List<AppUser>> getAllUsers() {
 
         return ResponseEntity.ok().body(accountService.getAllUsers());

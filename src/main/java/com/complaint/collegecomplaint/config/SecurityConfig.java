@@ -36,6 +36,8 @@ public class SecurityConfig {
 
         http.csrf(c -> c.disable()).cors(c -> c.disable())
                 .authorizeHttpRequests(request -> request
+                        .requestMatchers("/api/getAllUsers").hasAuthority("Administrator")
+                        .requestMatchers("/auth/adminRegister").hasAuthority("Administrator")
                         .requestMatchers("/**").permitAll()
                         .anyRequest()
                         .authenticated())
