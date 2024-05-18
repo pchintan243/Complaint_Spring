@@ -17,11 +17,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Complaint {
-    @Id    
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
-    private String firstName;
-    private String lastName;
+    private int id;
+    private String name;
     private String email;
     private String Department;
     private String query;
@@ -31,7 +30,14 @@ public class Complaint {
     private String computerIp;
     private String phone;
     private String note;
-    private Date date;
-    private String status;
-    private String flag;
+    private String date = dateTime();
+    private String status = "Pending";
+    private String flag = "Pending";
+
+    private String dateTime() {
+        String date = new Date().toString();
+        date = date.substring(0, 19);
+        return date;
+
+    }
 }
