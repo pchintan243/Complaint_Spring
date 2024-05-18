@@ -19,7 +19,7 @@ public class ComplaintService {
 
     @Autowired
     private ComplaintRepository complaintRepository;
-    
+
     @Autowired
     private AccountRepository accountRepository;
 
@@ -28,10 +28,6 @@ public class ComplaintService {
 
     @Autowired
     private HttpServletRequest request;
-
-    public List<Complaint> getAllComplaints() {
-        return (List<Complaint>) complaintRepository.findAll();
-    }
 
     public Complaint registerComplaint(ComplaintDao complaintDao) {
         Complaint comp = new Complaint();
@@ -46,18 +42,38 @@ public class ComplaintService {
             comp.setOtherQuery(complaintDao.getOtherQuery());
         }
 
-        String requestHeader = request.getHeader("Authorization");
-        String token = null;
-        token = requestHeader.substring(7);
-        String email = helper.getUsernameFromToken(token);
+        String email = getEmailFromToken();
 
         AppUser fetchUser = accountRepository.findByEmail(email);
 
         comp.setEmail(email);
         comp.setName(fetchUser.getName());
         comp.setPhone(fetchUser.getPhone());
-        comp.setDepartment("it");
 
         return complaintRepository.save(comp);
     }
+
+    public List<Complaint> getAllComplaints() {
+        String email = getEmailFromToken();
+        List<Complaint> allComplaints = complaintRepository.getAllComplaintsByEmail(email);
+        return allComplaints;
+    }
+
+    public Complaint getComplaintById(int id) {
+        Complaint complaint = complaintRepository.getComplaintById(id);
+        String email = getEmailFromToken();
+        if (complaint.getEmail().equals(email)) {
+            return complaint;
+        }
+        return null;
+    }
+
+    private String getEmailFromToken() {
+        String requestHeader = request.getHeader("Authorization");
+        String token = null;
+        token = requestHeader.substring(7);
+        String email = helper.getUsernameFromToken(token);
+        return email;
+    }
+
 }
