@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 @SpringBootApplication
 @SecurityScheme(name = "BearerAuth", scheme = "bearer", bearerFormat = "JWT", type = SecuritySchemeType.HTTP, in = SecuritySchemeIn.HEADER)
-@OpenAPIDefinition(info = @Info(title = "Testing Purpose", version = "3.0", description = "Swagger with bearer token authentication"))
+@OpenAPIDefinition(info = @Info(title = "Complaint management", version = "3.0", description = "Swagger with bearer token authentication"))
 public class CollegecomplaintApplication {
 
 	public static void main(String[] args) {
