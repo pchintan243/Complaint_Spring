@@ -15,6 +15,8 @@ import com.complaint.collegecomplaint.entities.ComplaintDao;
 import com.complaint.collegecomplaint.services.ComplaintService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -63,5 +65,14 @@ public class ComplaintController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(updateComplaint);
+    }
+
+    @DeleteMapping("complaint/deleteComplaint/{id}")
+    public ResponseEntity<?> deleteComplaint(@PathVariable int id) {
+        Boolean complaint = complaintService.deleteComplaint(id);
+        if (!complaint) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

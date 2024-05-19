@@ -94,8 +94,23 @@ public class ComplaintService {
         if (dao.getQuery().equals("otherquery")) {
             existingComplaint.setOtherQuery(dao.getOtherQuery());
         }
-        
+
         return complaintRepository.save(existingComplaint);
+    }
+
+    public Boolean deleteComplaint(int id) {
+        Complaint existingComplaint = complaintRepository.getComplaintById(id);
+        if (existingComplaint == null) {
+            return false;
+        }
+
+        String email = getEmailFromToken();
+        if (!email.equals(existingComplaint.getEmail())) {
+            return false;
+        }
+
+        complaintRepository.delete(existingComplaint);
+        return true;
     }
 
     private String getEmailFromToken() {
