@@ -1,11 +1,12 @@
 package com.complaint.collegecomplaint.controllers;
 
-import java.util.List;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,4 +46,22 @@ public class ComplaintController {
         return ResponseEntity.ok(complaint);
     }
 
+    @PostMapping("/complaint/count")
+    public ResponseEntity<?> getCountofComplaint() {
+        Long countOfComplaint = complaintService.getCountofComplaint();
+
+        Map<String, Long> response = new HashMap<>();
+        response.put("count", countOfComplaint);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("complaint/updateComplaint/{id}")
+    public ResponseEntity<Complaint> updateComplaint(@RequestBody ComplaintDao dao, @PathVariable int id) {
+        Complaint updateComplaint = complaintService.updateComplaint(dao, id);
+        if (updateComplaint == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(updateComplaint);
+    }
 }

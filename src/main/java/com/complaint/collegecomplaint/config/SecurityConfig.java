@@ -40,7 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/auth/adminRegister").hasAuthority("Administrator")
                         .requestMatchers("/auth/b2bRegister").hasAnyAuthority("Administrator", "B2BAdministrator")
                         .requestMatchers("/complaint/**").hasAnyAuthority("User", "Administrator", "B2BAdministrator")
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/**").permitAll()                        
                         .anyRequest()
                         .authenticated())
                 .exceptionHandling(e -> e.authenticationEntryPoint(point))

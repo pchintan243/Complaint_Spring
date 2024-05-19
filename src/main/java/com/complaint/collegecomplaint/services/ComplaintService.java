@@ -68,6 +68,36 @@ public class ComplaintService {
         return null;
     }
 
+    public Long getCountofComplaint() {
+        String email = getEmailFromToken();
+        long count = complaintRepository.countByEmail(email);
+        return count;
+    }
+
+    public Complaint updateComplaint(ComplaintDao dao, int id) {
+        Complaint existingComplaint = complaintRepository.getComplaintById(id);
+        if (existingComplaint == null) {
+            return null;
+        }
+
+        String email = getEmailFromToken();
+        if (!email.equals(existingComplaint.getEmail())) {
+            return null;
+        }
+
+        existingComplaint.setDepartment(dao.getDepartment());
+        existingComplaint.setNote(dao.getNote());
+        existingComplaint.setQuery(dao.getQuery());
+        if (dao.getQuery().equals("computer")) {
+            existingComplaint.setComputerIp(dao.getComputerIp());
+        }
+        if (dao.getQuery().equals("otherquery")) {
+            existingComplaint.setOtherQuery(dao.getOtherQuery());
+        }
+        
+        return complaintRepository.save(existingComplaint);
+    }
+
     private String getEmailFromToken() {
         String requestHeader = request.getHeader("Authorization");
         String token = null;

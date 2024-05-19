@@ -10,4 +10,6 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Integer> {
     List<Complaint> getAllComplaintsByEmail(String email);
 
     Complaint getComplaintById(int id);
+
+    long countByEmail(String email);
 }
