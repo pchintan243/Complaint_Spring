@@ -1,0 +1,13 @@
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.submit-btn {
+    background-color: rgb(104 85 224);
+}
+
+.create {
+    color: rgb(104 85 224);
+    padding: 0;
+}

@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row mx-0 justify-content-center">
+        <div class="col-md-7 col-lg-5 px-lg-2 col-xl-4 px-xl-0 px-xxl-3">
+            <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)"
+                class="w-100 rounded-1 p-4 border bg-white">
+                <label class="d-block mb-4">
+                    <span class="form-label d-block">Name</span>
+                    <input name="name" #name="ngModel" ngModel type="text" class="form-control" required />
+
+                    <span class="text-danger" *ngIf="!name.valid && name.touched">
+                        Name cannot be null
+                    </span>
+                </label>
+
+                <label class="d-block mb-4">
+                    <span class="form-label d-block">Email address</span>
+                    <input name="email" #email="ngModel" ngModel type="email" class="form-control" required />
+
+                    <span class="text-danger" *ngIf="!email.valid && email.touched">
+                        Email cannot be null
+                    </span>
+                </label>
+
+                <label class="d-block mb-4">
+                    <span class="form-label d-block">Phone Number</span>
+                    <input name="phone" #phone="ngModel" ngModel type="number" class="form-control" required />
+
+                    <span class="text-danger" *ngIf="!phone.valid && phone.touched">
+                        Phone number cannot be null
+                    </span>
+                </label>
+
+                <label class="d-block mb-4">
+                    <span class="form-label d-block">Password</span>
+                    <input name="password" #password="ngModel" ngModel type="password" class="form-control" required />
+                    <span class="text-danger" *ngIf="!password.valid && password.touched">
+                        Password cannot be null
+                    </span>
+                </label>
+
+                <div class="mb-3 btn-container">
+                    <button [disabled]="!registerForm.valid" type="submit"
+                        class="btn btn-primary px-3 rounded-3 submit-btn">
+                        SignUp
+                    </button>
+                    <button class="btn create" routerLink="/login">Already have an account?</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

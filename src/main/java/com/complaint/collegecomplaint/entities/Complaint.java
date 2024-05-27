@@ -22,7 +22,7 @@ public class Complaint {
     private int id;
     private String name;
     private String email;
-    private String Department;
+    private String department;
     private String query;
     @Column(nullable = true)
     private String otherQuery;
