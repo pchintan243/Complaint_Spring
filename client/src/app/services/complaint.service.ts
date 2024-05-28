@@ -23,6 +23,16 @@ export class ComplaintService {
 
     return this.http.post(this.baseUrl + 'complaint/registerComplaint', data, httpOptions);
   }
+
+  proceed(id: number) {
+    let httpOptions = getToken();
+    return this.http.put(this.baseUrl + 'complaint/proceed/' + id, {}, httpOptions);
+  }
+
+  solved(id: number) {
+    let httpOptions = getToken();
+    return this.http.put(this.baseUrl + 'complaint/solved/' + id, {}, httpOptions);
+  }
 }
 
 function getToken() {
@@ -38,5 +48,3 @@ function getToken() {
   }
   return httpOptions;
 }
-
-

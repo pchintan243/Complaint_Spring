@@ -3,13 +3,21 @@ package com.complaint.collegecomplaint.helper;
 import java.util.*;
 import java.util.function.Function;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+
+import com.complaint.collegecomplaint.entities.AppUser;
+import com.complaint.collegecomplaint.repositories.AccountRepository;
 
 import io.jsonwebtoken.*;
 
 @Component
 public class JwtHelper {
+
+    @Autowired
+    private AccountRepository accountRepository;
+
     public static final long JWT_TOKEN_VALIDITY = 5 * 60 * 60;
 
     private String secret = "afafasfafafasfasfasfafacasdasfasxASFACASDFACASDFASFASFDAFASFASDAADSCSDFADCVSGCFVADXCcadwavfsfarvf";
@@ -41,8 +49,11 @@ public class JwtHelper {
     }
 
     public String generateToken(UserDetails userDetails) {
+        AppUser user = accountRepository.findByEmail(userDetails.getUsername()); // Initialize user here
+
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", userDetails.getAuthorities());
+        claims.put("role", user.getClaims().getClaims());
         return doGenerateToken(claims, userDetails.getUsername());
     }
 

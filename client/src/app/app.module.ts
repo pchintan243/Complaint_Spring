@@ -19,6 +19,9 @@ import { MatTableModule } from '@angular/material/table';
 import { ComplaintService } from './services/complaint.service';
 import { MatSortModule } from '@angular/material/sort';
 import { ComplaintRegisterComponent } from './complaint-register/complaint-register.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
 
 
 const appRoutes: Routes = [
@@ -49,7 +52,10 @@ const appRoutes: Routes = [
     ToastrModule.forRoot(),
     MatPaginatorModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    MatIconModule,
+    MatDividerModule,
+    MatButtonModule
   ],
   providers: [
     ToastrService,

@@ -81,7 +81,9 @@ public class ComplaintController {
     @PutMapping("complaint/proceed/{id}")
     public ResponseEntity<Complaint> proceedComplaint(@PathVariable int id) {
         Complaint comp = complaintService.proceedComplaint(id);
-        return ResponseEntity.ok(comp);
+        if (comp != null)
+            return ResponseEntity.ok(comp);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @PutMapping("complaint/solved/{id}")

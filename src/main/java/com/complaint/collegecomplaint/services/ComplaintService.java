@@ -56,11 +56,12 @@ public class ComplaintService {
 
     public List<Complaint> getAllComplaints() {
         String email = getEmailFromToken();
-
         boolean isAdmin = isAdmin(email);
+        boolean isAst = isAssistantManager(email);
+        boolean isFaHead = isFaHead(email);
 
         List<Complaint> allComplaints;
-        if (isAdmin) {
+        if (isAdmin || isAst || isFaHead) {
             allComplaints = complaintRepository.getAllComplaintsOrderById();
         } else {
 
@@ -73,7 +74,9 @@ public class ComplaintService {
         Complaint complaint = complaintRepository.getComplaintById(id);
         String email = getEmailFromToken();
         boolean isAdmin = isAdmin(email);
-        if (isAdmin) {
+        boolean isAst = isAssistantManager(email);
+        boolean isFaHead = isFaHead(email);
+        if (isAdmin || isAst || isFaHead) {
             return complaint;
         }
         if (complaint.getEmail().equals(email)) {
@@ -141,8 +144,9 @@ public class ComplaintService {
         Complaint comp = complaintRepository.getComplaintById(id);
         if (comp.getStatus().equals("Pending") && isFaHead) {
             comp.setStatus("Processing");
+            return complaintRepository.save(comp);
         }
-        return complaintRepository.save(comp);
+        return null;
     }
 
     public Complaint solvedComplaint(int id) {

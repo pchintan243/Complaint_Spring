@@ -6,7 +6,7 @@ import { Complaint } from '../model/complaint';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort, Sort } from '@angular/material/sort';
-
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-complaint',
@@ -17,19 +17,26 @@ export class ComplaintComponent implements OnInit, AfterViewInit {
 
   @ViewChild('paginator') paginator!: MatPaginator;
 
-
   @ViewChild(MatSort) sort!: MatSort;
 
   dataSource!: MatTableDataSource<Complaint>;
+
+  role!: string;
 
   // complaintData!: Complaint[];
 
   displayedColumns: string[] = ['name', 'email', 'department', 'query', 'otherQuery', 'computerIp', 'phone', 'note', 'date', 'status', 'flag'];
 
   constructor(private complaintService: ComplaintService, private toastr: ToastrService, private router: Router) { }
-
   ngOnInit(): void {
-    // this.getAllComplaint();
+    this.getAllComplaints();
+    this.getRole();
+    if (this.role == 'FacultyHead' || this.role == 'AssistantManager') {
+      this.displayedColumns.push('state');
+    }
+  }
+
+  getAllComplaints() {
     this.complaintService.getAllComplaints()?.subscribe(complaints => {
       // this.complaintData = complaints;
       this.dataSource = new MatTableDataSource(complaints);
@@ -40,6 +47,33 @@ export class ComplaintComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+  }
+
+
+  proceed(id: number) {
+    this.complaintService.proceed(id).subscribe(() => {
+      this.toastr.success('Complaint Processed');
+      this.getAllComplaints();
+    });
+  }
+
+  solved(id: number) {
+    this.complaintService.solved(id).subscribe(() => {
+      this.toastr.success('Complaint Solved');
+      this.getAllComplaints();
+    });
+  }
+
+  getRole() {
+
+    let token = localStorage.getItem('token') as string;
+    const helper = new JwtHelperService();
+    const decodedToken = helper.decodeToken(token);
+
+    this.role = decodedToken.role;
+
+    return this.role;
+
   }
 }
 
