@@ -14,7 +14,7 @@ export class ComplaintRegisterComponent {
   complaintRegister(complaintForm: NgForm) {
     this.complaintService.registerComplaint(complaintForm.value).subscribe(
       (res: any) => {
-        this.toastr.success("User logged in successfully");
+        this.toastr.success("Complaint registered successfully");
         this.router.navigate(['/']);
       }
     );

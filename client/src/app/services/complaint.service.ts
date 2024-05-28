@@ -14,31 +14,30 @@ export class ComplaintService {
 
   getAllComplaints(): Observable<Complaint[]> {
 
-    let token = localStorage.getItem('token');
-    let httpOptions;
-    if (token) {
-      token = token.replace(/^"(.*)"$/, '$1');
-      httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token
-        })
-      };
-    }
+    let httpOptions = getToken();
+    
     return this.http.get<Complaint[]>(this.baseUrl + 'complaint/getAllComplaints', httpOptions);
   }
 
   registerComplaint(data: complaintData) {
-    let token = localStorage.getItem('token');
-    let httpOptions;
-    if (token) {
-      token = token.replace(/^"(.*)"$/, '$1');
-      httpOptions = {
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token
-        })
-      };
-    }
+    let httpOptions = getToken();
 
     return this.http.post(this.baseUrl + 'complaint/registerComplaint', data, httpOptions);
   }
 }
+
+function getToken() {
+  let token = localStorage.getItem('token');
+  let httpOptions;
+  if (token) {
+    token = token.replace(/^"(.*)"$/, '$1');
+    httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer ' + token
+      })
+    };
+  }
+  return httpOptions;
+}
+
+
