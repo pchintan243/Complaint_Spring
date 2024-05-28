@@ -18,7 +18,7 @@ export class LoginComponent {
         localStorage.setItem('token', JSON.stringify(res.token));
         localStorage.setItem('UserName', res.username);
         this.toastr.success("User logged in successfully");
-        this.router.navigate(['/login']);
+        this.router.navigate(['/']);
       }
     );
   }

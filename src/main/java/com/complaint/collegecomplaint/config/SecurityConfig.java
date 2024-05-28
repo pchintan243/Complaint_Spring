@@ -34,13 +34,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        http.csrf(c -> c.disable()).cors(c -> c.disable())
+        http.csrf(c -> c.disable())
+                // .cors(c -> c.disable())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/getAllUsers").hasAnyAuthority("Administrator", "B2BAdministrator")
                         .requestMatchers("/auth/adminRegister").hasAuthority("Administrator")
                         .requestMatchers("/auth/b2bRegister").hasAnyAuthority("Administrator", "B2BAdministrator")
                         .requestMatchers("/complaint/**").hasAnyAuthority("User", "Administrator", "B2BAdministrator")
-                        .requestMatchers("/**").permitAll()                        
+                        .requestMatchers("/**").permitAll()
                         .anyRequest()
                         .authenticated())
                 .exceptionHandling(e -> e.authenticationEntryPoint(point))

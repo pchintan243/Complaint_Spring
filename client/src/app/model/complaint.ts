@@ -12,3 +12,11 @@ export interface Complaint {
     status: string;
     flag: string;
 }
+
+export interface complaintData {
+    query: string;
+    otherQuery?: string;
+    computerIp?: string;
+    note: string;
+    department: string;
+}

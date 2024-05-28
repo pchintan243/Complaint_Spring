@@ -1,0 +1,77 @@
+<div class="container">
+    <div class="row mx-0 justify-content-center">
+        <div class="col-md-7 col-lg-5 px-lg-2 col-xl-4 px-xl-0 px-xxl-3">
+            <form #complaintForm="ngForm" (ngSubmit)="complaintRegister(complaintForm)"
+                class="w-100 rounded-1 p-4 border bg-white">
+
+                <!-- Department field -->
+                <label class="d-block mb-4">
+                    <span class="form-label d-block">Department</span>
+                    <select name="department" #department="ngModel" ngModel class="form-control" required>
+                        <option value="" disabled selected>Select Department</option>
+                        <option value="Information Technology">Information Technology</option>
+                        <option value="Computer Engineering">Computer Engineering</option>
+                        <option value="Mechanical Engineering">Mechanical Engineering</option>
+                        <option value="Artifical Intelligence">Artifical Intelligence</option>
+                        <option value="Civil Engineering">Civil Engineering</option>
+                        <option value="Food Processing and Technology">Food Processing and Technology</option>
+                        <option value="Electrical Engineering">Electrical Engineering</option>
+                        <option value="Electronic Engineering">Electronic Engineering</option>
+                    </select>
+                    <span class="text-danger" *ngIf="!department.valid && department.touched">
+                        Please select a Department
+                    </span>
+                </label>
+
+
+                <!-- Query field -->
+                <label class="d-block mb-4">
+                    <span class="form-label d-block">Query</span>
+                    <select name="query" #query="ngModel" ngModel class="form-control" required>
+                        <option value="" disabled selected>Select Query</option>
+                        <option value="Computer">Computer</option>
+                        <option value="Electrical">Electrical</option>
+                        <option value="Plumbing">Plumbing</option>
+                        <option value="Civil Work">Civil Work</option>
+                        <option value="OtherQuery">Other Query</option>
+                    </select>
+                    <span class="text-danger" *ngIf="!query.valid && query.touched">
+                        Please select a Query
+                    </span>
+                </label>
+
+
+                <label class="d-block mb-4" *ngIf="query.value=='Computer'">
+                    <span class="form-label d-block">Computer IP</span>
+                    <input name="computerIp" #computerIp="ngModel" ngModel type="text" class="form-control" required />
+                    <span class="text-danger" *ngIf="!computerIp.valid && computerIp.touched">
+                        Computer IP cannot be null
+                    </span>
+                </label>
+
+                <label class="d-block mb-4" *ngIf="query.value=='OtherQuery'">
+                    <span class="form-label d-block">Other Query</span>
+                    <input name="otherQuery" #otherQuery="ngModel" ngModel type="text" class="form-control" required />
+                    <span class="text-danger" *ngIf="!otherQuery.valid && otherQuery.touched">
+                        OtherQuery cannot be null
+                    </span>
+                </label>
+
+                <label class="d-block mb-4">
+                    <span class="form-label d-block">Note</span>
+                    <input name="note" #note="ngModel" ngModel type="text" class="form-control" required />
+                    <span class="text-danger" *ngIf="!note.valid && note.touched">
+                        Note cannot be null
+                    </span>
+                </label>
+
+                <div class="mb-3 btn-container">
+                    <button [disabled]="!complaintForm.valid" type="submit"
+                        class="btn btn-primary px-3 rounded-3 submit-btn">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

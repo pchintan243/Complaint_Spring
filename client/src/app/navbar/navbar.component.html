@@ -1,9 +1,11 @@
 <div class="container">
     <div>
-        <h4 class="header-tag">College Complaint Portal</h4>
+        <h4 class="header-tag" routerLink="/">College Complaint Portal</h4>
     </div>
     <div>
-        <button class="log" routerLink="/login">Login</button>
-        <button class="reg" routerLink="/register">Sign up</button>
+        <button *ngIf="!checkLogin()" class="log" routerLink="/login">Login</button>
+        <button *ngIf="!checkLogin()" class="reg" routerLink="/register">Sign up</button>
+        <button *ngIf="checkLogin()" class="reg" routerLink="/logout" (click)="logout()">Logout <span><i
+                    class="fa-solid fa-right-from-bracket"></i></span></button>
     </div>
 </div>

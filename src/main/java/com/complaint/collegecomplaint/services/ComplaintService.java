@@ -35,10 +35,10 @@ public class ComplaintService {
         comp.setNote(complaintDao.getNote());
 
         comp.setQuery(complaintDao.getQuery());
-        if (complaintDao.getQuery().equals("computer")) {
+        if (complaintDao.getQuery().equals("Computer")) {
             comp.setComputerIp(complaintDao.getComputerIp());
         }
-        if (complaintDao.getQuery().equals("otherquery")) {
+        if (complaintDao.getQuery().equals("OtherQuery")) {
             comp.setOtherQuery(complaintDao.getOtherQuery());
         }
 

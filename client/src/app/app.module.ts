@@ -14,11 +14,18 @@ import { HttpClientModule } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ComplaintComponent } from './complaint/complaint.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { ComplaintService } from './services/complaint.service';
+import { MatSortModule } from '@angular/material/sort';
+import { ComplaintRegisterComponent } from './complaint-register/complaint-register.component';
+
 
 const appRoutes: Routes = [
-  { path: '', component: NavbarComponent },
+  { path: '', component: ComplaintComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'complaint-form', component: ComplaintRegisterComponent },
 ]
 
 @NgModule({
@@ -27,7 +34,8 @@ const appRoutes: Routes = [
     NavbarComponent,
     LoginComponent,
     RegisterComponent,
-    ComplaintComponent
+    ComplaintComponent,
+    ComplaintRegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -39,10 +47,14 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes),
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    MatPaginatorModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers: [
     ToastrService,
-    AuthService
+    AuthService,
+    ComplaintService
   ],
   bootstrap: [AppComponent]
 })

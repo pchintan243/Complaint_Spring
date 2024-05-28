@@ -1,0 +1,77 @@
+<button routerLink="/complaint-form">Click</button>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="department">
+        <th mat-header-cell *matHeaderCellDef> Department </th>
+        <td mat-cell *matCellDef="let element"> {{element.department}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="query">
+        <th mat-header-cell *matHeaderCellDef> Query </th>
+        <td mat-cell *matCellDef="let element"> {{element.query}} </td>
+    </ng-container>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="otherQuery">
+        <th mat-header-cell *matHeaderCellDef> OtherQuery </th>
+        <td mat-cell *matCellDef="let element"> {{element.otherQuery}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="computerIp">
+        <th mat-header-cell *matHeaderCellDef> ComputerIp </th>
+        <td mat-cell *matCellDef="let element"> {{element.computerIp}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef> Phone </th>
+        <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="note">
+        <th mat-header-cell *matHeaderCellDef> Note </th>
+        <td mat-cell *matCellDef="let element"> {{element.note}} </td>
+    </ng-container>
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+    </ng-container>
+
+    <!-- Weight Column -->
+    <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+        <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+    </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="flag">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Flag </th>
+        <td mat-cell *matCellDef="let element"> {{element.flag}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+
+<mat-paginator #paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+</mat-paginator>
