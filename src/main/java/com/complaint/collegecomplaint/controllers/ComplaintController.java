@@ -77,4 +77,16 @@ public class ComplaintController {
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @PutMapping("complaint/proceed/{id}")
+    public ResponseEntity<Complaint> proceedComplaint(@PathVariable int id) {
+        Complaint comp = complaintService.proceedComplaint(id);
+        return ResponseEntity.ok(comp);
+    }
+
+    @PutMapping("complaint/solved/{id}")
+    public ResponseEntity<Complaint> solvedComplaint(@PathVariable int id) {
+        Complaint comp = complaintService.solvedComplaint(id);
+        return ResponseEntity.ok(comp);
+    }
 }

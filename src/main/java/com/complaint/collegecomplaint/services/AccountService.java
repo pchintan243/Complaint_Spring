@@ -66,20 +66,36 @@ public class AccountService {
         return admin;
     }
 
-    public JwtResponse b2bLogin(Login login) {
+    public JwtResponse astLogin(Login login) {
         AppUser user = accountRepository.findByEmail(login.getEmail());
 
-        if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("B2BAdministrator"))) {
+        if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("AssistantManager"))) {
             JwtResponse response = authenticateDetail(login);
             return response;
         }
         return null;
     }
 
-    public AppUser registerB2B(Register register) {
-        String role = "B2BAdministrator";
-        AppUser b2bUser = setUserDetails(register, role);
-        return b2bUser;
+    public AppUser registerAssistant(Register register) {
+        String role = "AssistantManager";
+        AppUser astUser = setUserDetails(register, role);
+        return astUser;
+    }
+
+    public JwtResponse headLogin(Login login) {
+        AppUser user = accountRepository.findByEmail(login.getEmail());
+
+        if (user.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("FacultyHead"))) {
+            JwtResponse response = authenticateDetail(login);
+            return response;
+        }
+        return null;
+    }
+
+    public AppUser registerHead(Register register) {
+        String role = "FacultyHead";
+        AppUser headUser = setUserDetails(register, role);
+        return headUser;
     }
 
     public List<AppUser> getAllUsers() {

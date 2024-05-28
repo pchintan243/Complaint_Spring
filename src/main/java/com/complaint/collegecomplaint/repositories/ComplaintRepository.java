@@ -9,10 +9,15 @@ import com.complaint.collegecomplaint.entities.Complaint;
 
 public interface ComplaintRepository extends JpaRepository<Complaint, Integer> {
     @Query("SELECT e FROM Complaint e WHERE e.email = :email ORDER BY e.id DESC")
-    List<Complaint> getAllComplaintsByEmail(String email);
+    List<Complaint> getAllComplaints(String email);
+
+    @Query("SELECT e FROM Complaint e ORDER BY e.id DESC")
+    List<Complaint> getAllComplaintsOrderById();
 
     Complaint getComplaintById(int id);
 
     long countByEmail(String email);
+
+    long count();
 
 }

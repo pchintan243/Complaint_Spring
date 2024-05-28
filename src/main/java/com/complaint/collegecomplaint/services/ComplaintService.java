@@ -3,6 +3,7 @@ package com.complaint.collegecomplaint.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.complaint.collegecomplaint.entities.AppUser;
@@ -55,13 +56,26 @@ public class ComplaintService {
 
     public List<Complaint> getAllComplaints() {
         String email = getEmailFromToken();
-        List<Complaint> allComplaints = complaintRepository.getAllComplaintsByEmail(email);
+
+        boolean isAdmin = isAdmin(email);
+
+        List<Complaint> allComplaints;
+        if (isAdmin) {
+            allComplaints = complaintRepository.getAllComplaintsOrderById();
+        } else {
+
+            allComplaints = complaintRepository.getAllComplaints(email);
+        }
         return allComplaints;
     }
 
     public Complaint getComplaintById(int id) {
         Complaint complaint = complaintRepository.getComplaintById(id);
         String email = getEmailFromToken();
+        boolean isAdmin = isAdmin(email);
+        if (isAdmin) {
+            return complaint;
+        }
         if (complaint.getEmail().equals(email)) {
             return complaint;
         }
@@ -70,6 +84,12 @@ public class ComplaintService {
 
     public Long getCountofComplaint() {
         String email = getEmailFromToken();
+
+        boolean isAdmin = isAdmin(email);
+        if (isAdmin) {
+            return complaintRepository.count();
+        }
+
         long count = complaintRepository.countByEmail(email);
         return count;
     }
@@ -113,12 +133,66 @@ public class ComplaintService {
         return true;
     }
 
+    public Complaint proceedComplaint(int id) {
+        String email = getEmailFromToken();
+
+        boolean isFaHead = isFaHead(email);
+
+        Complaint comp = complaintRepository.getComplaintById(id);
+        if (comp.getStatus().equals("Pending") && isFaHead) {
+            comp.setStatus("Processing");
+        }
+        return complaintRepository.save(comp);
+    }
+
+    public Complaint solvedComplaint(int id) {
+
+        String email = getEmailFromToken();
+        boolean isAst = isAssistantManager(email);
+
+        Complaint comp = complaintRepository.getComplaintById(id);
+        if (comp.getStatus().equals("Processing") && isAst) {
+            comp.setStatus("Solved");
+        }
+        return complaintRepository.save(comp);
+    }
+
     private String getEmailFromToken() {
         String requestHeader = request.getHeader("Authorization");
         String token = null;
         token = requestHeader.substring(7);
         String email = helper.getUsernameFromToken(token);
         return email;
+    }
+
+    private boolean isAdmin(String email) {
+        AppUser user = accountRepository.findByEmail(email);
+
+        boolean isAdmin = user.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(role -> role.equals("Administrator"));
+
+        return isAdmin;
+    }
+
+    private boolean isAssistantManager(String email) {
+        AppUser user = accountRepository.findByEmail(email);
+
+        boolean isAst = user.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(role -> role.equals("AssistantManager"));
+
+        return isAst;
+    }
+
+    private boolean isFaHead(String email) {
+        AppUser user = accountRepository.findByEmail(email);
+
+        boolean isHead = user.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .anyMatch(role -> role.equals("FacultyHead"));
+
+        return isHead;
     }
 
 }

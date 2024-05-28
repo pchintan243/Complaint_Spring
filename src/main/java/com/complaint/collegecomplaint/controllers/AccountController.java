@@ -56,24 +56,38 @@ public class AccountController {
         return ResponseEntity.status(HttpStatus.CREATED).body(registerAdmin);
     }
 
-    @PostMapping("/auth/b2bLogin")
-    public ResponseEntity<JwtResponse> b2bLogin(@RequestBody Login login) {
-        JwtResponse b2bLogin = accountService.b2bLogin(login);
-        if (b2bLogin == null) {
+    @PostMapping("/auth/astLogin")
+    public ResponseEntity<JwtResponse> astLogin(@RequestBody Login login) {
+        JwtResponse astLogin = accountService.astLogin(login);
+        if (astLogin == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        return ResponseEntity.ok(b2bLogin);
+        return ResponseEntity.ok(astLogin);
     }
 
-    @PostMapping("/auth/b2bRegister")
-    public ResponseEntity<AppUser> registerB2B(@RequestBody Register register) {
-        AppUser registerB2B = accountService.registerB2B(register);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registerB2B);
+    @PostMapping("/auth/astRegister")
+    public ResponseEntity<AppUser> registerAssistant(@RequestBody Register register) {
+        AppUser registerAst = accountService.registerAssistant(register);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registerAst);
+    }
+
+    @PostMapping("/auth/headLogin")
+    public ResponseEntity<JwtResponse> headLogin(@RequestBody Login login) {
+        JwtResponse headLogin = accountService.headLogin(login);
+        if (headLogin == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        return ResponseEntity.ok(headLogin);
+    }
+
+    @PostMapping("/auth/headRegister")
+    public ResponseEntity<AppUser> registerHead(@RequestBody Register register) {
+        AppUser registerHead = accountService.registerHead(register);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registerHead);
     }
 
     @GetMapping("/api/getAllUsers")
     public ResponseEntity<List<AppUser>> getAllUsers() {
-
         return ResponseEntity.ok().body(accountService.getAllUsers());
     }
 
