@@ -13,9 +13,8 @@ export class ComplaintService {
   constructor(private http: HttpClient) { }
 
   getAllComplaints(): Observable<Complaint[]> {
-
     let httpOptions = getToken();
-    
+
     return this.http.get<Complaint[]>(this.baseUrl + 'complaint/getAllComplaints', httpOptions);
   }
 
