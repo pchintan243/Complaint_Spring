@@ -75,5 +75,25 @@ export class ComplaintComponent implements OnInit, AfterViewInit {
     return this.role;
 
   }
+
+  getStatus(status: string) {
+    let styles = {};
+    if (status === 'Pending') {
+      styles = {
+        'color': 'red',
+        'font-weight': '400'
+      };
+    } else if (status === 'Solved') {
+      styles = {
+        'color': '#008b00'
+      };
+    } else if (status === 'Processing') {
+      styles = {
+        'color': '#ff8900'
+      };
+    }
+    return styles;
+  }
+
 }
 

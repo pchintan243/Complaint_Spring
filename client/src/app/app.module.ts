@@ -22,13 +22,14 @@ import { ComplaintRegisterComponent } from './complaint-register/complaint-regis
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
+import { preventGuard } from './services/prevent.guard';
 
 
 const appRoutes: Routes = [
-  { path: '', component: ComplaintComponent },
+  { path: '', component: ComplaintComponent, canActivate: [preventGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'complaint-form', component: ComplaintRegisterComponent },
+  { path: 'complaint-form', component: ComplaintRegisterComponent, canActivate: [preventGuard] },
 ]
 
 @NgModule({

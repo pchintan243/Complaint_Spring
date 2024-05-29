@@ -1,3 +1,13 @@
 .submit-btn {
     background-color: rgb(104 85 224);
 }
+
+.btn-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.back {
+    color: rgb(104 85 224);
+    padding: 0;
+}

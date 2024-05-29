@@ -1,3 +1,14 @@
 .submit-btn {
     background-color: rgb(104 85 224);
+    padding: 8px 0;
+}
+
+.register-container {
+    display: flex;
+    align-items: center;
+}
+
+h3 {
+    margin: 0;
+    color: rgb(6, 0, 47);
 }
